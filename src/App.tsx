@@ -10,12 +10,6 @@ import { routes } from "./routes";
 import AppHeader from "./components/AppHeader";
 import AppFooter from "./components/AppFooter";
 
-import Controller from "./pages/controller";
-import Edit from "./pages/edit";
-import Store from "./pages/store";
-import Setting from "./pages/setting";
-import NotFound from './pages/NotFound';
-
 const HEADER_HEIGHT = 48;
 const FOOTER_HTIGHT = 56;
 
@@ -41,12 +35,23 @@ const styles = makeStyles(theme => ({
 const App: React.FC = (props) => {
     const classes = styles();
     const [currentPageId, setCurrentPageId] = React.useState<number>((() => {
-        return 1;
+        return 0;
     })());
 
     const changePage = (pageid: number) => {
         setCurrentPageId(pageid);
     };
+
+    const renderRoutes = routes.map((route, index) => (
+        <Route
+            key={index}
+            exact
+            path={route.path}
+            component={(props: any) => (
+                <route.component changePage={(id: number) => { changePage(id) }} {...props} />
+            )}
+        />
+    ));
 
     return (
         <>
@@ -55,18 +60,7 @@ const App: React.FC = (props) => {
                 <AppHeader currentPageId={currentPageId} />
                 <Container className={classes.content} maxWidth="sm">
                     <Switch>
-                        {routes.map((route, index) => {
-                            return (
-                                <Route
-                                    key={index}
-                                    exact
-                                    path={route.path}
-                                    component={(props: any) => (
-                                        <route.component changePage={(id: number) => { changePage(id) }} {...props} />
-                                    )}
-                                />
-                            );
-                        })}
+                        {renderRoutes}
                     </Switch>
                 </Container>
                 <AppFooter

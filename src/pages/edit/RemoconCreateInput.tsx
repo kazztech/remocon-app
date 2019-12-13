@@ -8,39 +8,31 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconUpdateInputProps
+interface RemoconCreateInputProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpdateInputProps) => {
-    React.useEffect(() => {
-        props.changePage(21201);
-    }, []);
-
+const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (props: RemoconCreateInputProps) => {
     const classes = styles();
-    const remoconId = props.match.params.remoconId;
-    const propsState = props.location.state;
 
-    // 入力値.リモコン名
-    const [inputRemoconName, setInputRemoconName] = useState<string>(
-        typeof propsState !== "undefined" ? propsState.inputRemoconName : ""
-    );
+    const [inputRemoconName, setInputRemoconName] = useState<string>("");
     const handleInputRemoconName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputRemoconName(e.target.value);
     }
 
-    // 入力値.表示優先度
-    const [inputRemoconPriority, setInputRemoconPriority] = useState<string>(
-        typeof propsState !== "undefined" ? propsState.inputRemoconPriority : "3"
-    );
+    const [inputRemoconPriotiry, setInputRemoconPriotiry] = useState<string>("3");
     const handleInputRemoconPriority = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputRemoconPriority(e.target.value);
+        setInputRemoconPriotiry(e.target.value);
     }
+
+    React.useEffect(() => {
+        props.changePage(21101);
+    }, []);
 
     return (
         <>
             <Container className={classes.container}>
-                <Typography>RemoconUpdateInput</Typography>
+                <Typography>RemoconCreateInput</Typography>
                 <Box>
                     <TextField
                         label="リモコン名"
@@ -53,7 +45,7 @@ const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpd
                     <TextField
                         select
                         label="Select"
-                        value={inputRemoconPriority}
+                        value={inputRemoconPriotiry}
                         onChange={handleInputRemoconPriority}
                         variant="outlined"
                     >
@@ -71,13 +63,7 @@ const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpd
                 <Box>
                     <Button
                         component={Link}
-                        to={{
-                            pathname: `/edit/remocons/${remoconId}/update/confirm`,
-                            state: {
-                                inputRemoconName,
-                                inputRemoconPriority
-                            }
-                        }}
+                        to={`/edit/remocons/create/confirm`}
                         color="primary"
                         variant="contained"
                     >次へ</Button>
@@ -87,4 +73,4 @@ const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpd
     );
 }
 
-export default RemoconUpdateInput;
+export default RemoconCreateInput;

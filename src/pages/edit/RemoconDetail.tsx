@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles, Container } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { makeStyles, Container, Button } from '@material-ui/core';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -8,21 +8,28 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconDetailProps {
-    changePage(id: number): void
+interface RemoconDetailProps
+    extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{remoconId: string}> {
+        changePage(id: number): void
 };
 const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) => {
-    const classes = styles();
-
     React.useEffect(() => {
-        props.changePage(20003);
+        props.changePage(21002);
     }, []);
+    
+    const classes = styles();
+    const remoconId = props.match.params.remoconId;
 
     return (
         <>
             <Container className={classes.container}>
                 RemoconDetail
-                <Link to="/edit/remocons/1/update/input">Update</Link>
+                <Button
+                    to={`/edit/remocons/${remoconId}/update/input`}
+                    component={Link}
+                    color="primary"
+                    variant="contained"
+                >更新</Button>
             </Container>
         </>
     );
