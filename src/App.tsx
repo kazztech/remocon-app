@@ -41,13 +41,13 @@ const App: React.FC = (props) => {
     const changePage = (pageid: number) => {
         setCurrentPageId(pageid);
     };
-
+    
     const renderRoutes = routes.map((route, index) => (
         <Route
             key={index}
             exact
             path={route.path}
-            component={(props: any) => (
+            render={(props: any) => (
                 <route.component changePage={(id: number) => { changePage(id) }} {...props} />
             )}
         />

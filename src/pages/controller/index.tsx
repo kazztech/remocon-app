@@ -13,9 +13,16 @@ interface ControllerProps {
 };
 const Controller: React.FC<ControllerProps> = (props: ControllerProps) => {
     const classes = styles();
+    let [flg, setFlg] = React.useState(true);
 
     React.useEffect(() => {
-        props.changePage(10001);
+        console.log("1:");
+        if (flg) {
+            console.log("2:");
+            props.changePage(10001);
+        }
+        console.log("3:");
+        setFlg(false)
     }, []);
 
     return (

@@ -3,6 +3,10 @@ import { makeStyles, Container, Button, Typography, Box, CircularProgress } from
 import { Link, RouteComponentProps } from 'react-router-dom';
 import Axios from "axios";
 
+import ConnectingScene from "../../components/ConnectingScene";
+import ErrorScene from "../../components/ErrorScene";
+import SuccessScene from "../../components/SuccessScene";
+
 const styles = makeStyles(theme => ({
     container: {
         padding: theme.spacing(1)
@@ -14,12 +18,6 @@ const styles = makeStyles(theme => ({
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)"
-    },
-    backBtn: {
-        marginTop: 12
-    },
-    connectingText: {
-        marginTop: 8
     }
 }));
 
@@ -28,79 +26,59 @@ interface RemoconUpdateConpleteProps
     changePage(id: number): void
 };
 const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: RemoconUpdateConpleteProps) => {
+    const classes = styles();
+    const remoconId = props.match.params.remoconId;
+    const [scene, setScene] = useState<"connecting" | "error" | "success">("connecting");
+
+    let inputRemoconName = "";
+    let inputRemoconPriority = "";
+
+    let isDirectAccess = false;
+    if (typeof props.location.state !== "undefined") {
+        const propsState = props.location.state;
+        inputRemoconName = propsState.inputRemoconName;
+        inputRemoconPriority = propsState.inputRemoconPriority;
+    } else {
+        isDirectAccess = true;
+    }
+
     React.useEffect(() => {
         props.changePage(21203);
-
-        Axios.get("http://localhost:3000").then(() => {
+        Axios.get("http://192.168.3.200:3000/api/v1/remocons").then((res) => {
             setTimeout(() => {
                 setScene("success");
+                console.log(res);
             }, 2000);
         }).catch(() => {
             setScene("error");
         });
     }, []);
 
-    const classes = styles();
-    const remoconId = props.match.params.remoconId;
 
-    const [scene, setScene] = useState<"connecting" | "error" | "success">("connecting");
-
-    let inputRemoconName = "";
-    let inputRemoconPriority = "";
-    if (typeof props.location.state !== "undefined") {
-        const propsState = props.location.state;
-        inputRemoconName = propsState.inputRemoconName;
-        inputRemoconPriority = propsState.inputRemoconPriority;
-    } else {
-        return (<div>Error!</div>);
-    }
-
-    const ConnectingScene = (props: RemoconUpdateConpleteProps) => {
-        return (
-            <>
-                <CircularProgress />
-                <Typography className={classes.connectingText}>送信中...</Typography>
-            </>
-        );
-    }
-
-    const ErrorScene = (props: RemoconUpdateConpleteProps) => {
-        return (
-            <>
-                <Typography>送信に失敗しました</Typography>
-                <Button
-                    className={classes.backBtn}
-                    to={`/edit/remocons/${remoconId}`}
-                    component={Link}
-                    color="primary"
-                    variant="contained"
-                >戻る</Button>
-            </>
-        );
-    }
-
-    const SuccessScene = (props: RemoconUpdateConpleteProps) => {
-        return (
-            <>
-                <Typography>送信が完了しました</Typography>
-                <Button
-                    className={classes.backBtn}
-                    to={`/edit/remocons/${remoconId}`}
-                    component={Link}
-                    color="primary"
-                    variant="contained"
-                >戻る</Button>
-            </>
-        );
-    }
-
+    if (isDirectAccess) return (
+        <div>Error!</div>
+    );
     return (
         <>
             <Container className={classes.container}>
                 <Box className={classes.sceneContainer}>
                     {scene === "connecting" && <ConnectingScene {...props} />}
-                    {scene === "error" && <ErrorScene {...props} />}
-                    {scene === "success" && <SuccessScene {...props} />}
+                    {scene === "error" && (
+                        <ErrorScene
+                            text="リモコン更新に失敗しました"
+                            path={`/edit/remocons/${remoconId}`}
+                            btnText="リモコンへ"
+                            {...props}
+                        />
+                    )}
+                    {scene === "success" && (
+                        <SuccessScene
+                            text="リモコン更新が完了しました"
+                            path={`/edit/remocons/${remoconId}`}
+                            btnText="リモコンへ"
+                            {...props}
+                        />
+                    )}
                 </Box>
             </Container>
         </>

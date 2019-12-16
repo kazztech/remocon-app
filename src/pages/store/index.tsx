@@ -15,7 +15,6 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
     const classes = styles();
 
     React.useEffect(() => {
-        console.log(props);
         props.changePage(30001);
     }, []);
 
