@@ -1,6 +1,6 @@
 import React from "react";
 
-import { routesType, ComponentProps } from "./index";
+import { RoutesType, ComponentProps } from "./index";
 import Edit from "../pages/edit";
 import RemoconList from "../pages/edit/RemoconList";
 import RemoconDetail from "../pages/edit/RemoconDetail";
@@ -10,7 +10,7 @@ import RemoconUpdateConfirm from "../pages/edit/RemoconUpdateConfirm";
 import RemoconUpdateComplete from "../pages/edit/RemoconUpdateComplete";
 
 
-const routes: routesType[] = [
+const routes: RoutesType[] = [
     {
         title: "編集",
         id: 20001,
@@ -40,21 +40,21 @@ const routes: routesType[] = [
                 component: RemoconDetail
             },
                 {
-                    title: "リモコン更新",
+                    title: "入力",
                     id: 21201,
                     path: "/edit/remocons/:remoconId/update/input",
                     prevId: 21002,
                     component: RemoconUpdateInput
                 },
                 {
-                    title: "リモコン更新",
+                    title: "確認",
                     id: 21202,
                     path: "/edit/remocons/:remoconId/update/confirm",
                     prevId: null,
                     component: RemoconUpdateConfirm
                 },
                 {
-                    title: "リモコン更新",
+                    title: "完了",
                     id: 21203,
                     path: "/edit/remocons/:remoconId/update/complete",
                     prevId: null,

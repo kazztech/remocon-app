@@ -10,14 +10,6 @@ import SuccessScene from "../../components/SuccessScene";
 const styles = makeStyles(theme => ({
     container: {
         padding: theme.spacing(1)
-    },
-    sceneContainer: {
-        width: "85%",
-        textAlign: "center",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)"
     }
 }));
 
@@ -44,14 +36,18 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
 
     React.useEffect(() => {
         props.changePage(21203);
-        Axios.get("http://192.168.3.200:3000/api/v1/remocons").then((res) => {
-            setTimeout(() => {
-                setScene("success");
-                console.log(res);
-            }, 2000);
-        }).catch(() => {
-            setScene("error");
-        });
+        if (!isDirectAccess) {
+            Axios.put(`http://192.168.3.200:3000/api/v1/remocons/${remoconId}`, {
+                name: inputRemoconName,
+                priority: inputRemoconPriority
+            }).then((res) => {
+                setTimeout(() => {
+                    setScene("success");
+                }, 2000);
+            }).catch(() => {
+                setScene("error");
+            });
+        }
     }, []);
 
 
@@ -61,8 +57,9 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
     return (
         <>
             <Container className={classes.container}>
-                <Box className={classes.sceneContainer}>
-                    {scene === "connecting" && <ConnectingScene {...props} />}
+                    {scene === "connecting" && (
+                        <ConnectingScene text={"送信中..."} {...props} />
+                    )}
                     {scene === "error" && (
                         <ErrorScene
                             text="リモコン更新に失敗しました"
@@ -79,7 +76,6 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
                             {...props}
                         />
                     )}
-                </Box>
             </Container>
         </>
     );

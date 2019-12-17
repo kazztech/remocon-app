@@ -5,10 +5,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { MuiThemeProvider } from '@material-ui/core';
+import theme from "./theme";
 
 ReactDOM.render(
     <Router>
-        <App />
+        <MuiThemeProvider theme={theme}>
+            <App />
+        </MuiThemeProvider>
     </Router>,
     document.getElementById('root')
 );

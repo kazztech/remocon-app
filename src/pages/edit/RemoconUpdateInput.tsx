@@ -5,6 +5,13 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 const styles = makeStyles(theme => ({
     container: {
         padding: theme.spacing(1)
+    },
+    formGroup: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+    },
+    formSubmit: {
+        textAlign: "right"
     }
 }));
 
@@ -40,35 +47,32 @@ const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpd
     return (
         <>
             <Container className={classes.container}>
-                <Typography>RemoconUpdateInput</Typography>
-                <Box>
+                <Box className={classes.formGroup}>
                     <TextField
                         label="リモコン名"
                         variant="outlined"
                         value={inputRemoconName}
                         onChange={handleInputRemoconName}
+                        fullWidth
                     />
                 </Box>
-                <Box>
+                <Box className={classes.formGroup}>
                     <TextField
                         select
-                        label="Select"
+                        label="表示優先度"
                         value={inputRemoconPriority}
                         onChange={handleInputRemoconPriority}
                         variant="outlined"
+                        fullWidth
                     >
-                        <MenuItem value={"1"}>
-                            1
-                        </MenuItem>
-                        <MenuItem value={"2"}>
-                            2
-                        </MenuItem>
-                        <MenuItem value={"3"}>
-                            3
-                        </MenuItem>
+                        {[1, 2, 3, 4, 5].map((value, index) => (
+                            <MenuItem key={index} value={value}>
+                                {value}
+                            </MenuItem>
+                        ))}
                     </TextField>
                 </Box>
-                <Box>
+                <Box className={`${classes.formGroup} ${classes.formSubmit}`}>
                     <Button
                         component={Link}
                         to={{

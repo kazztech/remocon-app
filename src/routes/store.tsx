@@ -1,9 +1,9 @@
 import React from "react";
 
-import { routesType, ComponentProps } from "./index";
+import { RoutesType, ComponentProps } from "./index";
 import Store from "../pages/store";
 
-const routes: routesType[] = [
+const routes: RoutesType[] = [
     {
         title: "ストア",
         id: 30001,

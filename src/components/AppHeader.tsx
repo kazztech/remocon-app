@@ -1,12 +1,15 @@
 import React, { ReactElement, HTMLAttributes } from 'react';
 import { Link, withRouter, RouteComponentProps, LinkProps } from 'react-router-dom';
-import { routeFindById, routesType, routes, pathAndParamsMatch } from "../routes";
+import { routeFindById, routes, pathAndParamsMatch } from "../routes";
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { makeStyles, Box, BottomNavigation, BottomNavigationAction, Button, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
     container: {},
+    toolbar: {
+        minHeight: 56
+    },
     title: {
         flexGrow: 1,
     },
@@ -16,8 +19,9 @@ const styles = makeStyles(theme => ({
         color: "white",
         minWidth: 0
     },
-    prevText: {
+    prevTitle: {
         fontSize: 13,
+        marginLeft: -4
     },
     rightFunc: {
         position: "absolute",
@@ -47,8 +51,8 @@ const AppHeader: React.FC<AppHeaderProps> = (props: AppHeaderProps) => {
                             className={classes.leftFunc}
                             onClick={() => { props.history.push(prevPath) }}
                         >
-                            <ArrowBackIosIcon style={{ fontSize: 22 }} />
-                            {prevRoute.title}
+                            <ArrowBackIosIcon style={{ fontSize: 20 }} />
+                            <Box className={classes.prevTitle}>{prevRoute.title}</Box>
                         </Button>
                     ) : (
                         <></>
@@ -59,8 +63,8 @@ const AppHeader: React.FC<AppHeaderProps> = (props: AppHeaderProps) => {
 
     return (
         <Box className={`${classes.container} ${props.className}`}>
-            <AppBar position="static">
-                <Toolbar variant="dense">
+            <AppBar position="fixed">
+                <Toolbar className={classes.toolbar} variant="regular">
                     <PrevButton {...props} />
                     <Typography
                         style={{ fontWeight: 700 }}

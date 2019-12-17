@@ -11,7 +11,7 @@ import NotFound from "../pages/NotFound";
 export interface ComponentProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps { };
 
-export interface routesType {
+export interface RoutesType {
     title: string;
     id: number;
     path: string;
@@ -19,7 +19,7 @@ export interface routesType {
     component: React.FC<any>
 };
 
-export const routes: routesType[] = [
+export const routes: RoutesType[] = [
     ...controllerRoutes,
     ...editRoutes,
     ...storeRoutes,
@@ -35,7 +35,7 @@ export const routes: routesType[] = [
 ];
 
 // idからrouteを取得
-export function routeFindById(id: number | null): routesType {
+export function routeFindById(id: number | null): RoutesType {
     const route = routes.find(v => v.id === id);
     if (typeof route !== "undefined") {
         return route;

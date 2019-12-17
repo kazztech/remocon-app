@@ -1,9 +1,9 @@
 import React from "react";
 
-import { routesType, ComponentProps } from "./index";
+import { RoutesType, ComponentProps } from "./index";
 import Setting from "../pages/setting";
 
-const routes: routesType[] = [
+const routes: RoutesType[] = [
     {
         title: "設定",
         id: 40001,

@@ -1,9 +1,9 @@
 import React from "react";
 
-import { routesType, ComponentProps } from "./index";
+import { RoutesType, ComponentProps } from "./index";
 import Controller from "../pages/controller";
 
-const routes: routesType[] = [
+const routes: RoutesType[] = [
     {
         title: "リモコン",
         id: 10001,
