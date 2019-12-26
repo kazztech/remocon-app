@@ -1,5 +1,9 @@
 import React from 'react';
 import { makeStyles, Container, Button, Typography, Grid, Divider } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -23,6 +27,9 @@ const styles = makeStyles(theme => ({
     },
     editButtonsGrid: {
         marginTop: theme.spacing(1)
+    },
+    icon: {
+        marginRight: theme.spacing(1 / 2)
     }
 }));
 
@@ -73,7 +80,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
                     <>
                         <Typography className={classes.remoconTitle} variant="h5">{remocon.name}</Typography>
                         <Typography variant="caption" color="textSecondary">
-                            ウィジェットの数({remocon.widgets.length}) 表示優先度({remocon.priority})
+                            表示優先度({remocon.priority}) ウィジェットの数({remocon.widgets.length})
                         </Typography>
                         <Grid container spacing={1} className={classes.editButtonsGrid}>
                             <Grid item xs={6}>
@@ -91,7 +98,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
                                     }}
                                     component={Link}
                                 >
-                                    {"編集"}
+                                    <EditIcon className={classes.icon} />{"編集"}
                                 </Button>
                             </Grid>
                             <Grid item xs={6}>
@@ -101,29 +108,30 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
                                     color="primary"
                                     size="large"
                                     to={{
-                                        pathname: `/edit/remocons/${remoconId}/delete/show`,
+                                        pathname: `/edit/remocons/${remoconId}/delete/confirm`,
                                         state: {
                                             inputRemoconName: remocon.name,
-                                            inputRemoconPriority: remocon.priority
+                                            inputRemoconPriority: remocon.priority,
+                                            widgetCount: remocon.widgets.length
                                         }
                                     }}
                                     component={Link}
                                 >
-                                    {"削除"}
+                                    <DeleteIcon className={classes.icon} />{"削除"}
                                 </Button>
                             </Grid>
                         </Grid>
                         <Divider className={classes.divider} />
                         <Typography variant="body1">{remocon.name}のウィジェット</Typography>
                         <Grid container spacing={1} className={classes.editButtonsGrid}>
-                            <Grid item xs={6}>
+                            <Grid item xs={12}>
                                 <Button className={classes.button} variant="contained" color="primary" size="large">
-                                    {"ウィジェット追加"}
+                                    <AddCircleIcon className={classes.icon} />{"ウィジェット追加"}
                                 </Button>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12}>
                                 <Button className={classes.button} variant="contained" color="primary" size="large">
-                                    {"レイアウト編集"}
+                                    <ViewModuleIcon className={classes.icon} />{"レイアウトの編集"}
                                 </Button>
                             </Grid>
                         </Grid>

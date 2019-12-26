@@ -20,10 +20,6 @@ interface RemoconUpdateInputProps
     changePage(id: number): void
 };
 const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpdateInputProps) => {
-    React.useEffect(() => {
-        props.changePage(21201);
-    }, []);
-
     const classes = styles();
     const remoconId = props.match.params.remoconId;
     const propsState = props.location.state;
@@ -43,6 +39,10 @@ const RemoconUpdateInput: React.FC<RemoconUpdateInputProps> = (props: RemoconUpd
     const handleInputRemoconPriority = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputRemoconPriority(e.target.value);
     }
+
+    React.useEffect(() => {
+        props.changePage(21201);
+    }, []);
 
     return (
         <>

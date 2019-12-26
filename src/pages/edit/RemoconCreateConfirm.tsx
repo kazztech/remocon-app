@@ -20,17 +20,17 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconUpdateConfirmProps
+interface RemoconCreateConfirmProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: RemoconUpdateConfirmProps) => {
+const RemoconCreateConfirm: React.FC<RemoconCreateConfirmProps> = (props: RemoconCreateConfirmProps) => {
     const classes = styles();
-    const remoconId = props.match.params.remoconId;
 
     let inputRemoconName = "";
     let inputRemoconPriority = "";
     let isDirectAccess = false;
+
     if (typeof props.location.state !== "undefined") {
         const propsState = props.location.state;
         inputRemoconName = propsState.inputRemoconName;
@@ -40,8 +40,9 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
     }
 
     React.useEffect(() => {
-        props.changePage(21202);
+        props.changePage(21102);
     }, []);
+
 
     if (isDirectAccess) return (
         <ErrorScene
@@ -71,7 +72,7 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
                         className={classes.prevBtn}
                         component={Link}
                         to={{
-                            pathname: `/edit/remocons/${remoconId}/update/input`,
+                            pathname: `/edit/remocons/create/input`,
                             state: {
                                 inputRemoconName,
                                 inputRemoconPriority
@@ -81,7 +82,7 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
                     <Button
                         component={Link}
                         to={{
-                            pathname: `/edit/remocons/${remoconId}/update/complete`,
+                            pathname: `/edit/remocons/create/complete`,
                             state: {
                                 inputRemoconName,
                                 inputRemoconPriority
@@ -96,4 +97,4 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
     );
 }
 
-export default RemoconUpdateConfirm;
+export default RemoconCreateConfirm;

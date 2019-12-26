@@ -5,6 +5,13 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 const styles = makeStyles(theme => ({
     container: {
         padding: theme.spacing(1)
+    },
+    formGroup: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
+    },
+    formSubmit: {
+        textAlign: "right"
     }
 }));
 
@@ -15,14 +22,22 @@ interface RemoconCreateInputProps
 const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (props: RemoconCreateInputProps) => {
     const classes = styles();
 
-    const [inputRemoconName, setInputRemoconName] = useState<string>("");
+    const propsState = props.location.state;
+
+    // 入力値.リモコン名
+    const [inputRemoconName, setInputRemoconName] = useState<string>(
+        typeof propsState !== "undefined" ? propsState.inputRemoconName : ""
+    );
     const handleInputRemoconName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputRemoconName(e.target.value);
     }
 
-    const [inputRemoconPriotiry, setInputRemoconPriotiry] = useState<string>("3");
+    // 入力値.表示優先度
+    const [inputRemoconPriority, setInputRemoconPriority] = useState<string>(
+        typeof propsState !== "undefined" ? propsState.inputRemoconPriority : "3"
+    );
     const handleInputRemoconPriority = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputRemoconPriotiry(e.target.value);
+        setInputRemoconPriority(e.target.value);
     }
 
     React.useEffect(() => {
@@ -32,38 +47,41 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (props: RemoconCre
     return (
         <>
             <Container className={classes.container}>
-                <Typography>RemoconCreateInput</Typography>
-                <Box>
+                <Box className={classes.formGroup}>
                     <TextField
                         label="リモコン名"
                         variant="outlined"
                         value={inputRemoconName}
                         onChange={handleInputRemoconName}
+                        fullWidth
                     />
                 </Box>
-                <Box>
+                <Box className={classes.formGroup}>
                     <TextField
                         select
-                        label="Select"
-                        value={inputRemoconPriotiry}
+                        label="表示優先度"
+                        value={inputRemoconPriority}
                         onChange={handleInputRemoconPriority}
                         variant="outlined"
+                        fullWidth
                     >
-                        <MenuItem value={"1"}>
-                            1
-                        </MenuItem>
-                        <MenuItem value={"2"}>
-                            2
-                        </MenuItem>
-                        <MenuItem value={"3"}>
-                            3
-                        </MenuItem>
+                        {[1, 2, 3, 4, 5].map((value, index) => (
+                            <MenuItem key={index} value={value}>
+                                {value}
+                            </MenuItem>
+                        ))}
                     </TextField>
                 </Box>
-                <Box>
+                <Box className={`${classes.formGroup} ${classes.formSubmit}`}>
                     <Button
                         component={Link}
-                        to={`/edit/remocons/create/confirm`}
+                        to={{
+                            pathname: `/edit/remocons/create/confirm`,
+                            state: {
+                                inputRemoconName,
+                                inputRemoconPriority
+                            }
+                        }}
                         color="primary"
                         variant="contained"
                     >次へ</Button>

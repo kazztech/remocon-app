@@ -13,34 +13,21 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconUpdateConpleteProps
+interface RemoconDeleteConpleteProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: RemoconUpdateConpleteProps) => {
+const RemoconDeleteConplete: React.FC<RemoconDeleteConpleteProps> = (props: RemoconDeleteConpleteProps) => {
     const classes = styles();
     const remoconId = props.match.params.remoconId;
     const [scene, setScene] = useState<"connecting" | "error" | "success">("connecting");
 
-    let inputRemoconName = "";
-    let inputRemoconPriority = "";
-
-    let isDirectAccess = false;
-    if (typeof props.location.state !== "undefined") {
-        const propsState = props.location.state;
-        inputRemoconName = propsState.inputRemoconName;
-        inputRemoconPriority = propsState.inputRemoconPriority;
-    } else {
-        isDirectAccess = true;
-    }
+    let isDirectAccess = typeof props.location.state === "undefined"
 
     React.useEffect(() => {
-        props.changePage(21203);
+        props.changePage(21302);
         if (!isDirectAccess) {
-            Axios.put(`http://192.168.3.200:3000/api/v1/remocons/${remoconId}`, {
-                name: inputRemoconName,
-                priority: inputRemoconPriority
-            }).then((res) => {
+            Axios.delete(`http://192.168.3.200:3000/api/v1/remocons/${remoconId}`).then((res) => {
                 setTimeout(() => {
                     setScene("success");
                 }, 2000);
@@ -67,17 +54,17 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
                     )}
                     {scene === "error" && (
                         <ErrorScene
-                            text="リモコン更新に失敗しました"
-                            path={`/edit/remocons/${remoconId}`}
-                            btnText="リモコンへ"
+                            text="リモコン削除に失敗しました"
+                            path={`/edit/remocons`}
+                            btnText="リモコン一覧へ"
                             {...props}
                         />
                     )}
                     {scene === "success" && (
                         <SuccessScene
-                            text="リモコン更新が完了しました"
-                            path={`/edit/remocons/${remoconId}`}
-                            btnText="リモコンへ"
+                            text="リモコン削除が完了しました"
+                            path={`/edit/remocons`}
+                            btnText="リモコン一覧へ"
                             {...props}
                         />
                     )}
@@ -86,4 +73,4 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
     );
 }
 
-export default RemoconUpdateConplete;
+export default RemoconDeleteConplete;

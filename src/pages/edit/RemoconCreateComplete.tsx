@@ -19,7 +19,7 @@ interface RemoconUpdateConpleteProps
 };
 const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: RemoconUpdateConpleteProps) => {
     const classes = styles();
-    const remoconId = props.match.params.remoconId;
+    const [remoconId, setRemoconId] = React.useState(1);
     const [scene, setScene] = useState<"connecting" | "error" | "success">("connecting");
 
     let inputRemoconName = "";
@@ -35,12 +35,13 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
     }
 
     React.useEffect(() => {
-        props.changePage(21203);
+        props.changePage(21103);
         if (!isDirectAccess) {
-            Axios.put(`http://192.168.3.200:3000/api/v1/remocons/${remoconId}`, {
+            Axios.post(`http://192.168.3.200:3000/api/v1/remocons`, {
                 name: inputRemoconName,
                 priority: inputRemoconPriority
             }).then((res) => {
+                setRemoconId(res.data.content.id);
                 setTimeout(() => {
                     setScene("success");
                 }, 2000);
@@ -68,7 +69,7 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
                     {scene === "error" && (
                         <ErrorScene
                             text="リモコン更新に失敗しました"
-                            path={`/edit/remocons/${remoconId}`}
+                            path={`/edit/remocons`}
                             btnText="リモコンへ"
                             {...props}
                         />

@@ -5,9 +5,13 @@ import Edit from "../pages/edit";
 import RemoconList from "../pages/edit/RemoconList";
 import RemoconDetail from "../pages/edit/RemoconDetail";
 import RemoconCreateInput from "../pages/edit/RemoconCreateInput";
+import RemoconCreateConfirm from "../pages/edit/RemoconCreateConfirm";
+import RemoconCreateComplete from "../pages/edit/RemoconCreateComplete";
 import RemoconUpdateInput from "../pages/edit/RemoconUpdateInput";
 import RemoconUpdateConfirm from "../pages/edit/RemoconUpdateConfirm";
 import RemoconUpdateComplete from "../pages/edit/RemoconUpdateComplete";
+import RemoconDeleteConfirm from "../pages/edit/RemoconDeleteConfirm";
+import RemoconDeleteComplete from "../pages/edit/RemoconDeleteComplete";
 
 
 const routes: RoutesType[] = [
@@ -33,6 +37,20 @@ const routes: RoutesType[] = [
                 component: RemoconCreateInput
             },
             {
+                title: "リモコン作成",
+                id: 21102,
+                path: "/edit/remocons/create/confirm",
+                prevId: null,
+                component: RemoconCreateConfirm
+            },
+            {
+                title: "リモコン作成",
+                id: 21103,
+                path: "/edit/remocons/create/complete",
+                prevId: null,
+                component: RemoconCreateComplete
+            },
+            {
                 title: "リモコン詳細",
                 id: 21002,
                 path: "/edit/remocons/:remoconId",
@@ -40,25 +58,39 @@ const routes: RoutesType[] = [
                 component: RemoconDetail
             },
                 {
-                    title: "入力",
+                    title: "リモコン更新",
                     id: 21201,
                     path: "/edit/remocons/:remoconId/update/input",
                     prevId: 21002,
                     component: RemoconUpdateInput
                 },
                 {
-                    title: "確認",
+                    title: "リモコン更新",
                     id: 21202,
                     path: "/edit/remocons/:remoconId/update/confirm",
                     prevId: null,
                     component: RemoconUpdateConfirm
                 },
                 {
-                    title: "完了",
+                    title: "リモコン更新",
                     id: 21203,
                     path: "/edit/remocons/:remoconId/update/complete",
                     prevId: null,
                     component: RemoconUpdateComplete
+                },
+                {
+                    title: "リモコン削除",
+                    id: 21301,
+                    path: "/edit/remocons/:remoconId/delete/confirm",
+                    prevId: 21002,
+                    component: RemoconDeleteConfirm
+                },
+                {
+                    title: "リモコン削除",
+                    id: 21302,
+                    path: "/edit/remocons/:remoconId/delete/complete",
+                    prevId: null,
+                    component: RemoconDeleteComplete
                 },
         {
             title: "一括送信一覧",

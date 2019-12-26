@@ -20,28 +20,30 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconUpdateConfirmProps
+interface RemoconDeleteConfirmProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: RemoconUpdateConfirmProps) => {
+const RemoconDeleteConfirm: React.FC<RemoconDeleteConfirmProps> = (props: RemoconDeleteConfirmProps) => {
+    React.useEffect(() => {
+        props.changePage(21301);
+    }, []);
+
     const classes = styles();
     const remoconId = props.match.params.remoconId;
 
     let inputRemoconName = "";
     let inputRemoconPriority = "";
+    let widgetCount = 0;
     let isDirectAccess = false;
     if (typeof props.location.state !== "undefined") {
         const propsState = props.location.state;
         inputRemoconName = propsState.inputRemoconName;
         inputRemoconPriority = propsState.inputRemoconPriority;
+        widgetCount = propsState.widgetCount;
     } else {
         isDirectAccess = true;
     }
-
-    React.useEffect(() => {
-        props.changePage(21202);
-    }, []);
 
     if (isDirectAccess) return (
         <ErrorScene
@@ -64,28 +66,18 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
                             <TableCell align="left" component="th">表示優先度</TableCell>
                             <TableCell align="left">{inputRemoconPriority}</TableCell>
                         </TableRow>
+                        <TableRow>
+                            <TableCell align="left" component="th">ウィジェット数</TableCell>
+                            <TableCell align="left">{widgetCount}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
                 <Box className={`${classes.formGroup} ${classes.formSubmit}`}>
                     <Button
-                        className={classes.prevBtn}
                         component={Link}
                         to={{
-                            pathname: `/edit/remocons/${remoconId}/update/input`,
-                            state: {
-                                inputRemoconName,
-                                inputRemoconPriority
-                            }
-                        }}
-                    >戻る</Button>
-                    <Button
-                        component={Link}
-                        to={{
-                            pathname: `/edit/remocons/${remoconId}/update/complete`,
-                            state: {
-                                inputRemoconName,
-                                inputRemoconPriority
-                            }
+                            pathname: `/edit/remocons/${remoconId}/delete/complete`,
+                            state: {}
                         }}
                         color="primary"
                         variant="contained"
@@ -96,4 +88,4 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (props: Remoco
     );
 }
 
-export default RemoconUpdateConfirm;
+export default RemoconDeleteConfirm;

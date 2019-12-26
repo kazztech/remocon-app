@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles, Container, Button, List, ListItem, ListItemText, Divider, Snackbar, IconButton, CircularProgress, Box } from '@material-ui/core';
-import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles, Container, Button, List, ListItem, ListItemText, Divider, Snackbar, IconButton, CircularProgress, Box, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
 import ErrorScene from "../../components/ErrorScene";
@@ -16,6 +16,15 @@ const styles = makeStyles(theme => ({
     },
     inline: {
         display: 'inline',
+    },
+    addButton: {
+        width: "100%",
+        borderRadius: 0,
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1)
+    },
+    icon: {
+        marginRight: theme.spacing(1/2)
     }
 }));
 
@@ -58,7 +67,7 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
                                 secondary={
                                     <React.Fragment>
                                         表示優先度({remocon.priority}) ウィジェットの数({remocon.widgets.length})
-                            </React.Fragment>
+                                    </React.Fragment>
                                 }
                             />
                         </ListItem>
@@ -83,12 +92,18 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
                     />
                 )}
                 {apiState === "success" && (
-                    <List className={classes.lists}>
-                        <ListItem alignItems="flex-start" button component={Link} to="/edit/remocons/create/input">
-                            <ListItemText primary={"リモコン新規作成"} />
-                        </ListItem>
+                    <>
+                        <Button
+                            className={classes.addButton}
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            component={Link} to="/edit/remocons/create/input"
+                        >
+                            <AddIcon className={classes.icon} />新規作成
+                        </Button>
                         <Remocons {...props} />
-                    </List>
+                    </>
                 )}
             </Container>
         </>
