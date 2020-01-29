@@ -1,11 +1,9 @@
-import React from "react";
-import { JSXAttribute } from "@babel/types";
 import { RouteComponentProps } from "react-router";
 
-import controllerRoutes from "./controller";
+import controllerRoutes from "./remocons";
 import editRoutes from "./edit";
 import storeRoutes from "./store";
-import settingRoutes from "./setting";
+import settingRoutes from "./batches";
 import NotFound from "../pages/NotFound";
 
 export interface ComponentProps

@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles, Button, Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import { makeStyles, Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { Link, LinkProps, withRouter, RouteComponentProps } from 'react-router-dom';
 import { getRootPageById } from "../routes";
 
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
-import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import SettingsRemoteRoundedIcon from '@material-ui/icons/SettingsRemoteRounded';
 
 const styles = makeStyles({
@@ -27,7 +27,7 @@ const AppFooter: React.FC<AppFooterProps> = (props: AppFooterProps) => {
 
     React.useEffect(() => {
         const rootPageId = getRootPageById(props.currentPageId);
-        setCurrentPageId(rootPageId)
+        setCurrentPageId(rootPageId);
     });
 
     return (
@@ -44,14 +44,14 @@ const AppFooter: React.FC<AppFooterProps> = (props: AppFooterProps) => {
                     value={10001}
                     icon={<SettingsRemoteRoundedIcon />}
                     component={RefLink}
-                    to="/controller"
+                    to="/"
                 />
                 <BottomNavigationAction
-                    label="編集"
-                    value={20001}
-                    icon={<EditRoundedIcon />}
+                    label="一括操作"
+                    value={40001}
+                    icon={<FormatListNumberedIcon />}
                     component={RefLink}
-                    to="/edit"
+                    to="/batch"
                 />
                 <BottomNavigationAction
                     label="ストア"
@@ -61,11 +61,11 @@ const AppFooter: React.FC<AppFooterProps> = (props: AppFooterProps) => {
                     to="/store"
                 />
                 <BottomNavigationAction
-                    label="設定"
-                    value={40001}
-                    icon={<SettingsRoundedIcon />}
+                    label="編集"
+                    value={20001}
+                    icon={<EditRoundedIcon />}
                     component={RefLink}
-                    to="/setting"
+                    to="/edit"
                 />
             </BottomNavigation>
         </Box>

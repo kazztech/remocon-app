@@ -1,9 +1,8 @@
 import React from 'react';
 import { makeStyles, Container, Button, Typography, Grid, Divider } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
 
@@ -37,17 +36,35 @@ interface RemoconDetailProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-interface RemoconsProps {
+interface WidgetType {
     id: number;
-    name: string;
-    priority: number;
-    widgets: Array<{}>
+    label: {
+        text: string,
+        color: string
+    };
+    icon: {
+        style: string,
+        color: string
+    };
+    position: {
+        x: number,
+        y: number
+    },
+    irPattern: number[]
 }
+
+interface RemoconType {
+    id: number;
+    priority: number;
+    name: number;
+    widgets: WidgetType[]
+}
+
 const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) => {
     const classes = styles();
     const remoconId = props.match.params.remoconId;
     const [apiState, setApiState] = React.useState<"connecting" | "error" | "success">("connecting");
-    const [remocon, setRemocon] = React.useState<RemoconsProps | undefined>();
+    const [remocon, setRemocon] = React.useState<RemoconType | null>(null);
 
     React.useEffect(() => {
         props.changePage(21002);
@@ -61,6 +78,85 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
             setApiState("error");
         });
     }, []);
+
+    const Widgets = (props: RemoconDetailProps) => {
+        const sortedWidgets = (() => {
+            if (remocon === null) return [];
+            const maxLength = 64;
+            const result = [];
+            for (let i = 0; i < maxLength; i++) {
+                const r = remocon.widgets.find((widget: WidgetType) => (
+                    widget.position.y * 4 + widget.position.x === i
+                ));
+                if (typeof r === "undefined") {
+                    result.push(null);
+                } else {
+                    result.push(r);
+                }
+            }
+            return result;
+        })();
+
+        return (
+            <>
+                {sortedWidgets.map((widget, index) => (
+                    <Grid key={index} item xs={3}>
+                        {widget !== null ?
+                            <Button
+                                fullWidth
+                                style={{
+                                    borderRadius: 0,
+                                    fontSize: 15,
+                                    height: 56,
+                                    padding: "4px",
+                                    lineHeight: 1.5,
+                                    textAlign: "center"
+                                }}
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                component={Link}
+                                to={{
+                                    pathname: `/edit/remocons/${remoconId}/widgets/${widget.id}/update/input`,
+                                    state: {
+                                        inputWidgetLabelText: widget.label.text,
+                                        inputWidgetIconColor: widget.label.color,
+                                        inputWidgetIconStyle: widget.icon.style,
+                                        selectPosition: widget.position.y * 4 + widget.position.x,
+                                        irPattern: widget.irPattern
+                                    }
+                                }}
+                            >
+                                {widget.label.text}
+                            </Button>
+                            :
+                            <Button
+                                fullWidth
+                                style={{
+                                    borderRadius: 0,
+                                    fontSize: 15,
+                                    height: 56,
+                                    padding: "4px",
+                                    lineHeight: 1.5,
+                                    color: "silver"
+                                }}
+                                component={Link}
+                                to={{
+                                    pathname: `/edit/remocons/${remoconId}/widgets/create/input`,
+                                    state: {
+                                        selectPosition: index
+                                    }
+                                }}
+                                size="large"
+                            >
+                                ＋追加
+                            </Button>
+                        }
+                    </Grid>
+                ))}
+            </>
+        );
+    };
 
     return (
         <>
@@ -76,7 +172,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
                         {...props}
                     />
                 )}
-                {apiState === "success" && typeof remocon !== "undefined" && (
+                {apiState === "success" && typeof remocon !== "undefined" && remocon !== null && (
                     <>
                         <Typography className={classes.remoconTitle} variant="h5">{remocon.name}</Typography>
                         <Typography variant="caption" color="textSecondary">
@@ -124,16 +220,31 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (props: RemoconDetailProps) 
                         <Divider className={classes.divider} />
                         <Typography variant="body1">{remocon.name}のウィジェット</Typography>
                         <Grid container spacing={1} className={classes.editButtonsGrid}>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <Button className={classes.button} variant="contained" color="primary" size="large">
-                                    <AddCircleIcon className={classes.icon} />{"ウィジェット追加"}
+                                    <ViewModuleIcon className={classes.icon} />{"レイアウト"}
                                 </Button>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Button className={classes.button} variant="contained" color="primary" size="large">
-                                    <ViewModuleIcon className={classes.icon} />{"レイアウトの編集"}
+                            <Grid item xs={6}>
+                                <Button
+                                    className={classes.button}
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    component={Link}
+                                    to={`/edit/remocons/${remoconId}/widgets/create/input`}
+                                >
+                                    <DeleteIcon className={classes.icon} />{"全削除"}
                                 </Button>
                             </Grid>
+                        </Grid>
+                        <Divider className={classes.divider} />
+                        <Typography variant="body1">ウィジェット一覧</Typography>
+                        <Typography variant="caption" color="textSecondary">
+                            選択してウィジェット編集へ
+                        </Typography>
+                        <Grid container spacing={1} className={classes.editButtonsGrid}>
+                            <Widgets {...props} />
                         </Grid>
                     </>
                 )}

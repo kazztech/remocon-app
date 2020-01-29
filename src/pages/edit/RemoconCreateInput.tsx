@@ -65,7 +65,7 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (props: RemoconCre
                         variant="outlined"
                         fullWidth
                     >
-                        {[1, 2, 3, 4, 5].map((value, index) => (
+                        {[...Array(5)].map((_, index) => index + 1).map((value, index) => (
                             <MenuItem key={index} value={value}>
                                 {value}
                             </MenuItem>

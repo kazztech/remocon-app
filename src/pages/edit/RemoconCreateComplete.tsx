@@ -13,11 +13,11 @@ const styles = makeStyles(theme => ({
     }
 }));
 
-interface RemoconUpdateConpleteProps
+interface RemoconCreateConpleteProps
     extends React.HTMLAttributes<HTMLDivElement>, RouteComponentProps<{ remoconId: string }> {
     changePage(id: number): void
 };
-const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: RemoconUpdateConpleteProps) => {
+const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (props: RemoconCreateConpleteProps) => {
     const classes = styles();
     const [remoconId, setRemoconId] = React.useState(1);
     const [scene, setScene] = useState<"connecting" | "error" | "success">("connecting");
@@ -87,4 +87,4 @@ const RemoconUpdateConplete: React.FC<RemoconUpdateConpleteProps> = (props: Remo
     );
 }
 
-export default RemoconUpdateConplete;
+export default RemoconCreateConplete;

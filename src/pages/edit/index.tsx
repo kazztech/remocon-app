@@ -20,11 +20,11 @@ interface EditProps {
     changePage(id: number): void
 };
 const Edit: React.FC<EditProps> = (props: EditProps) => {
+    const classes = styles();
+
     React.useEffect(() => {
         props.changePage(20001);
     }, []);
-
-    const classes = styles();
 
     return (
         <>
@@ -39,7 +39,7 @@ const Edit: React.FC<EditProps> = (props: EditProps) => {
                         </Typography>
                     </Paper>
                 </Link>
-                <Link to="/edit/batchs" style={{ textDecoration: 'none' }}>
+                <Link to="/edit/batches" style={{ textDecoration: 'none' }}>
                     <Paper className={classes.selectEditMode}>
                         <Typography align="center" variant="h5" className={classes.selectEditModeTitle}>
                             一括操作の管理

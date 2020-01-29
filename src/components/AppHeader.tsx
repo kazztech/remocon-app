@@ -1,9 +1,9 @@
-import React, { ReactElement, HTMLAttributes } from 'react';
-import { Link, withRouter, RouteComponentProps, LinkProps } from 'react-router-dom';
-import { routeFindById, routes, pathAndParamsMatch } from "../routes";
+import React from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { routeFindById, pathAndParamsMatch } from "../routes";
 
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { makeStyles, Box, BottomNavigation, BottomNavigationAction, Button, AppBar, Toolbar, Typography } from '@material-ui/core';
+import { makeStyles, Box, Button, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
     container: {},

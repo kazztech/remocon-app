@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Container, Button, List, ListItem, ListItemText, Divider, Snackbar, IconButton, CircularProgress, Box, Typography } from '@material-ui/core';
+import { makeStyles, Container, Button, ListItem, ListItemText, Divider, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import Axios from 'axios';
@@ -40,14 +40,14 @@ interface RemoconsProps {
 const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
     const classes = styles();
     const [apiState, setApiState] = React.useState<"connecting" | "error" | "success">("connecting");
-    const [remocons, setRemocons] = React.useState<Array<RemoconsProps>>([]);
+    const [batches, setBatches] = React.useState<Array<RemoconsProps>>([]);
 
     React.useEffect(() => {
-        props.changePage(21001);
+        props.changePage(22001);
 
-        Axios.get("http://192.168.3.200:3000/api/v1/remocons", { timeout: 5000 }).then(response => {
+        Axios.get("http://192.168.3.200:3000/api/v1/batches", { timeout: 5000 }).then(response => {
             setTimeout(() => {
-                setRemocons(response.data.content.remocons);
+                setBatches(response.data.content.batches);
                 setApiState("success");
             }, 300);
         }).catch(error => {
@@ -58,15 +58,15 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
     const Remocons = (props: RemoconListProps) => {
         return (
             <>
-                {remocons.map((remocon, index) => (
+                {batches.map((batch, index) => (
                     <React.Fragment key={index}>
                         <Divider />
-                        <ListItem alignItems="flex-start" button component={Link} to={"/edit/remocons/" + remocon.id}>
+                        <ListItem alignItems="flex-start" button component={Link} to={"/edit/batches/" + batch.id}>
                             <ListItemText
-                                primary={remocon.name}
+                                primary={batch.name}
                                 secondary={
                                     <React.Fragment>
-                                        表示優先度({remocon.priority}) ウィジェットの数({remocon.widgets.length})
+                                        表示優先度({batch.priority}) 操作数({batch.widgets.length})
                                     </React.Fragment>
                                 }
                             />

@@ -8,3 +8,38 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+::-webkit-scrollbar {
+    overflow: hidden;
+    width: 5px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 5px;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-piece {
+}
+
+::-webkit-scrollbar-piece:start {
+}
+
+::-webkit-scrollbar-thumb {
+    overflow: hidden;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #eee;
+}
+
+::-webkit-scrollbar-corner {
+    overflow: hidden;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #eee;
+}

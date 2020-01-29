@@ -49,25 +49,25 @@ const RemoconDeleteConplete: React.FC<RemoconDeleteConpleteProps> = (props: Remo
     return (
         <>
             <Container className={classes.container}>
-                    {scene === "connecting" && (
-                        <ConnectingScene text={"送信中..."} {...props} />
-                    )}
-                    {scene === "error" && (
-                        <ErrorScene
-                            text="リモコン削除に失敗しました"
-                            path={`/edit/remocons`}
-                            btnText="リモコン一覧へ"
-                            {...props}
-                        />
-                    )}
-                    {scene === "success" && (
-                        <SuccessScene
-                            text="リモコン削除が完了しました"
-                            path={`/edit/remocons`}
-                            btnText="リモコン一覧へ"
-                            {...props}
-                        />
-                    )}
+                {scene === "connecting" && (
+                    <ConnectingScene text={"送信中..."} {...props} />
+                )}
+                {scene === "error" && (
+                    <ErrorScene
+                        text="リモコン削除に失敗しました"
+                        path={`/edit/remocons`}
+                        btnText="リモコン一覧へ"
+                        {...props}
+                    />
+                )}
+                {scene === "success" && (
+                    <SuccessScene
+                        text="リモコン削除が完了しました"
+                        path={`/edit/remocons`}
+                        btnText="リモコン一覧へ"
+                        {...props}
+                    />
+                )}
             </Container>
         </>
     );

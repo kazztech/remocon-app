@@ -1,8 +1,6 @@
 import React from 'react';
-import { Switch, Route, Link } from "react-router-dom";
-import { Button, Box, CssBaseline, Container, Snackbar, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close"
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { Switch, Route } from "react-router-dom";
+import { CssBaseline, Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/styles';
 
 import { routes } from "./routes";
