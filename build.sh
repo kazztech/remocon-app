@@ -1,2 +1,4 @@
+#!/bin/bash
 npm run build
-cp -r build /home/kazz/html
+ 
+scp -r ./build raspi:/var/www/html

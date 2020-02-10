@@ -59,7 +59,7 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (
   }
 
   React.useEffect(() => {
-    props.changePage(21502);
+    props.changePage(21601);
   }, []);
 
   if (isDirectAccess)
@@ -130,14 +130,8 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (
           <Button
             component={Link}
             to={{
-              pathname: `/edit/remocons/${remoconId}/widgets/${widgetId}/update/complete`,
-              state: {
-                inputWidgetLabelText,
-                inputWidgetIconColor,
-                inputWidgetIconStyle,
-                selectPosition,
-                irPattern
-              }
+              pathname: `/edit/remocons/${remoconId}/widgets/${widgetId}/delete/complete`,
+              state: {}
             }}
             color="primary"
             variant="contained"

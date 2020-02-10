@@ -56,26 +56,11 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
   }
 
   React.useEffect(() => {
-    props.changePage(21503);
+    props.changePage(21602);
     console.log(irPattern);
     if (!isDirectAccess) {
-      Axios.put(
-        `http://192.168.3.200:3000/api/v1/remocons/${remoconId}/widgets/${widgetId}`,
-        {
-          label: {
-            text: inputWidgetLabelText,
-            color: "white"
-          },
-          icon: {
-            style: inputWidgetIconStyle,
-            color: inputWidgetIconColor
-          },
-          position: {
-            x: selectPositionX,
-            y: selectPositionY
-          },
-          irPattern: irPattern
-        }
+      Axios.delete(
+        `http://192.168.3.200:3000/api/v1/remocons/${remoconId}/widgets/${widgetId}`
       )
         .then(res => {
           setTimeout(() => {

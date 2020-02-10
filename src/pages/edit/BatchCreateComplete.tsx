@@ -22,74 +22,50 @@ const styles = makeStyles(theme => ({
 
 interface RemoconCreateConpleteProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    RouteComponentProps<{ remoconId: string; widgetId: string }> {
+    RouteComponentProps<{ remoconId: string }> {
   changePage(id: number): void;
 }
 const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
   props: RemoconCreateConpleteProps
 ) => {
   const classes = styles();
+  const [remoconId, setRemoconId] = React.useState(1);
   const [scene, setScene] = useState<"connecting" | "error" | "success">(
     "connecting"
   );
 
-  const remoconId = props.match.params.remoconId;
-  const widgetId = props.match.params.widgetId;
+  let inputRemoconName = "";
+  let inputRemoconPriority = "";
 
-  let inputWidgetLabelText = "";
-  let inputWidgetIconColor = "";
-  let inputWidgetIconStyle = "";
-  let selectPositionX: number | null = null;
-  let selectPositionY: number | null = null;
-  let irPattern: number[] | null = null;
   let isDirectAccess = false;
   if (typeof props.location.state !== "undefined") {
     const propsState = props.location.state;
-    inputWidgetLabelText = propsState.inputWidgetLabelText;
-    inputWidgetIconColor = propsState.inputWidgetIconColor;
-    inputWidgetIconStyle = propsState.inputWidgetIconStyle;
-    selectPositionX = propsState.selectPosition % 4;
-    selectPositionY = Math.floor(propsState.selectPosition / 4);
-    irPattern = propsState.irPattern;
+    inputRemoconName = propsState.inputRemoconName;
+    inputRemoconPriority = propsState.inputRemoconPriority;
   } else {
     isDirectAccess = true;
   }
 
   React.useEffect(() => {
-    props.changePage(21503);
-    console.log(irPattern);
+    props.changePage(21103);
     if (!isDirectAccess) {
-      Axios.put(
-        `http://192.168.3.200:3000/api/v1/remocons/${remoconId}/widgets/${widgetId}`,
-        {
-          label: {
-            text: inputWidgetLabelText,
-            color: "white"
-          },
-          icon: {
-            style: inputWidgetIconStyle,
-            color: inputWidgetIconColor
-          },
-          position: {
-            x: selectPositionX,
-            y: selectPositionY
-          },
-          irPattern: irPattern
-        }
-      )
+      Axios.post(`http://192.168.3.200:3000/api/v1/batches`, {
+        name: inputRemoconName,
+        priority: inputRemoconPriority
+      })
         .then(res => {
+          setRemoconId(res.data.content.id);
           setTimeout(() => {
             setScene("success");
           }, 2000);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
           setScene("error");
         });
     }
   }, []);
 
-  if (isDirectAccess)
+  if (isDirectAccess) {
     return (
       <ErrorScene
         text="アクセス方法が不正です"
@@ -98,6 +74,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
         {...props}
       />
     );
+  }
   return (
     <>
       <Container className={classes.container}>
@@ -106,7 +83,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
         )}
         {scene === "error" && (
           <ErrorScene
-            text="ウィジェット追加に失敗しました"
+            text="通信に失敗しました"
             path={`/edit/remocons`}
             btnText="リモコンへ"
             {...props}
@@ -114,7 +91,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
         )}
         {scene === "success" && (
           <SuccessScene
-            text="ウィジェット追加が完了しました"
+            text="リモコン更新が完了しました"
             path={`/edit/remocons/${remoconId}`}
             btnText="リモコンへ"
             {...props}
