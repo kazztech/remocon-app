@@ -23,22 +23,26 @@ import Axios from "axios";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 
+import WidgetButton from "../../components/WidgetButton";
 import ConnectingScene from "../../components/ConnectingScene";
 import ErrorScene from "../../components/ErrorScene";
 import SuccessScene from "../../components/SuccessScene";
+
+import buttonColor from "../../utils/functions/buttonColor";
 
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
   },
   form: {
-    marginTop: theme.spacing(1)
+    marginBottom: theme.spacing(1)
   },
   formSubmit: {
     textAlign: "right"
   },
   deleteButton: {
     marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
     color: "white",
     backgroundColor: "#f44336",
     "&:hover": {
@@ -311,7 +315,9 @@ const WidgetCreateInput: React.FC<WidgetCreateInputProps> = (
               {[
                 { name: "black", display: "黒色" },
                 { name: "red", display: "赤色" },
-                { name: "white", display: "白色" }
+                { name: "yellow", display: "黄色" },
+                { name: "green", display: "緑色" },
+                { name: "blue", display: "青色" }
               ].map((value, index) => (
                 <MenuItem key={index} value={value.name}>
                   {value.display}
@@ -376,22 +382,12 @@ const WidgetCreateInput: React.FC<WidgetCreateInputProps> = (
             </Typography>
             <Grid container spacing={1}>
               <Grid item xs={3} style={{ margin: "0 auto" }}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  style={{
-                    borderRadius: 0,
-                    fontSize: 15,
-                    height: 56,
-                    padding: "4px",
-                    lineHeight: 1.5,
-                    textAlign: "center",
-                    wordBreak: "break-all"
-                  }}
+                <WidgetButton
+                  color={buttonColor(inputWidgetIconColor)}
+                  handleClick={() => {}}
                 >
                   {inputWidgetLabelText}
-                </Button>
+                </WidgetButton>
               </Grid>
             </Grid>
             <Divider style={{ margin: "10px 0" }} />

@@ -14,6 +14,7 @@ import useApi from "../../hooks/useApi";
 import WidgetButton from "../../components/WidgetButton";
 import ErrorScene from "../../components/ErrorScene";
 import ConnectingScene from "../../components/ConnectingScene";
+import buttonColor from "../../utils/functions/buttonColor";
 
 const styles = makeStyles((theme: Theme) => ({
   container: {
@@ -94,7 +95,6 @@ const Controller: React.FC<ControllerProps> = (props: ControllerProps) => {
 
   const sortedWidgets = useMemo(() => {
     if (remocons.length === 0) return [];
-    console.log("AAAA");
     const maxLength = Math.max.apply(
       null,
       remocons[selectRemoconIndex].widgets.map(
@@ -157,6 +157,9 @@ const Controller: React.FC<ControllerProps> = (props: ControllerProps) => {
                   <Grid key={index} item xs={3}>
                     {widget !== null ? (
                       <WidgetButton
+                        color={(() => {
+                          return buttonColor(widget.icon.color);
+                        })()}
                         handleClick={() => {
                           sendIrApi(widget.id);
                         }}

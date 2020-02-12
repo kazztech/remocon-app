@@ -58,6 +58,8 @@ const RemoconUpdateConfirm: React.FC<RemoconUpdateConfirmProps> = (
     isDirectAccess = true;
   }
 
+  console.log({ irPattern });
+
   React.useEffect(() => {
     props.changePage(21502);
   }, []);

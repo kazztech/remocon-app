@@ -26,6 +26,11 @@ import EditBatchDetail from "../pages/edit/BatchDetail";
 import EditBatchCreateInput from "../pages/edit/BatchCreateInput";
 import EditBatchCreateConfirm from "../pages/edit/BatchCreateConfirm";
 import EditBatchCreateComplete from "../pages/edit/BatchCreateComplete";
+import EditBatchDeleteConfirm from "../pages/edit/BatchDeleteConfirm";
+import EditBatchDeleteComplete from "../pages/edit/BatchDeleteComplete";
+
+import BatchAddRemoconSelect from "../pages/edit/BatchAddRemoconSelect";
+import EditBatchAddWidgetSelect from "../pages/edit/BatchAddWidgetSelect";
 
 const routes: RoutesType[] = [
   {
@@ -35,7 +40,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: Edit
   },
-  // リモコン作成
+  //
   {
     title: "リモコン一覧",
     id: 21001,
@@ -43,6 +48,7 @@ const routes: RoutesType[] = [
     prevId: 20001,
     component: EditRemoconList
   },
+  //
   {
     title: "リモコン作成",
     id: 21101,
@@ -64,6 +70,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditRemoconCreateComplete
   },
+  //
   {
     title: "リモコン詳細",
     id: 21002,
@@ -71,6 +78,7 @@ const routes: RoutesType[] = [
     prevId: 21001,
     component: EditRemoconDetail
   },
+  //
   {
     title: "リモコン更新",
     id: 21201,
@@ -92,6 +100,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditRemoconUpdateComplete
   },
+  //
   {
     title: "リモコン削除",
     id: 21301,
@@ -106,6 +115,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditRemoconDeleteComplete
   },
+  //
   {
     title: "ウィジェット作成",
     id: 21401,
@@ -127,6 +137,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditWidgetCreateComplete
   },
+  //
   {
     title: "ウィジェット更新",
     id: 21501,
@@ -148,6 +159,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditWidgetUpdateComplete
   },
+  //
   {
     title: "ウィジェット削除",
     id: 21601,
@@ -162,6 +174,7 @@ const routes: RoutesType[] = [
     prevId: null,
     component: EditWidgetDeleteComplete
   },
+  //
   {
     title: "一括操作一覧",
     id: 22001,
@@ -169,6 +182,7 @@ const routes: RoutesType[] = [
     prevId: 20001,
     component: EditBatchList
   },
+  //
   {
     title: "一括操作詳細",
     id: 22002,
@@ -176,6 +190,7 @@ const routes: RoutesType[] = [
     prevId: 22001,
     component: EditBatchDetail
   },
+  //
   {
     title: "一括操作新規",
     id: 22101,
@@ -196,6 +211,36 @@ const routes: RoutesType[] = [
     path: "/edit/batches/create/complete",
     prevId: null,
     component: EditBatchCreateComplete
+  },
+  //
+  {
+    title: "操作追加",
+    id: 22201,
+    path: "/edit/batches/:batchId/add/select",
+    prevId: 22002,
+    component: BatchAddRemoconSelect
+  },
+  {
+    title: "操作追加",
+    id: 22202,
+    path: "/edit/batches/:batchId/add/select/:remoconId",
+    prevId: 22201,
+    component: EditBatchAddWidgetSelect
+  },
+  //
+  {
+    title: "一括操作削除",
+    id: 22301,
+    path: "/edit/batches/:batchId/delete/confirm",
+    prevId: 22002,
+    component: EditBatchDeleteConfirm
+  },
+  {
+    title: "一括操作削除",
+    id: 22302,
+    path: "/edit/batches/:batchId/delete/complete",
+    prevId: null,
+    component: EditBatchDeleteComplete
   }
 ];
 
