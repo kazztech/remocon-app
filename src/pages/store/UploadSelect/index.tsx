@@ -13,9 +13,9 @@ import AddIcon from "@material-ui/icons/Add";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { Link, RouteComponentProps } from "react-router-dom";
 import Axios from "axios";
-import ErrorScene from "../../components/ErrorScene";
-import ConnectingScene from "../../components/ConnectingScene";
-import { API_BASE_URL } from "../../utils/vars";
+import ErrorScene from "../../../components/ErrorScene";
+import ConnectingScene from "../../../components/ConnectingScene";
+import { API_BASE_URL } from "../../../utils/vars";
 
 const styles = makeStyles(theme => ({
   container: {
@@ -41,7 +41,7 @@ const styles = makeStyles(theme => ({
 
 interface RemoconListProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    RouteComponentProps<{ batchId: string }> {
+    RouteComponentProps<{}> {
   changePage(id: number): void;
 }
 interface RemoconsProps {
@@ -51,7 +51,6 @@ interface RemoconsProps {
   widgets: {}[];
 }
 const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
-  const batchId = props.match.params.batchId;
   const classes = styles();
   const [apiState, setApiState] = React.useState<
     "connecting" | "error" | "success"
@@ -59,7 +58,7 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
   const [remocons, setRemocons] = React.useState<Array<RemoconsProps>>([]);
 
   React.useEffect(() => {
-    props.changePage(22201);
+    props.changePage(31001);
 
     Axios.get(`${API_BASE_URL}/remocons`, { timeout: 5000 })
       .then(response => {
@@ -95,7 +94,12 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
                     alignItems="flex-start"
                     button
                     component={Link}
-                    to={`/edit/batches/${batchId}/add/select/${remocon.id}`}
+                    to={{
+                      pathname: `/store/upload/${remocon.id}/input`,
+                      state: {
+                        remoconName: remocon.name
+                      }
+                    }}
                   >
                     <ListItemText
                       primary={remocon.name}

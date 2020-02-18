@@ -10,11 +10,11 @@ import {
 import { Link, RouteComponentProps } from "react-router-dom";
 import Axios from "axios";
 
-import ConnectingScene from "../../components/ConnectingScene";
-import ErrorScene from "../../components/ErrorScene";
-import SuccessScene from "../../components/SuccessScene";
+import ConnectingScene from "../../../components/ConnectingScene";
+import ErrorScene from "../../../components/ErrorScene";
+import SuccessScene from "../../../components/SuccessScene";
 
-import { API_BASE_URL } from "../../utils/vars";
+import { API_BASE_URL } from "../../../utils/vars";
 
 const styles = makeStyles(theme => ({
   container: {
@@ -57,7 +57,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
   }
 
   React.useEffect(() => {
-    props.changePage(21103);
+    props.changePage(31004);
     if (!isDirectAccess) {
       Axios.post(`${API_BASE_URL}/remocons/${remoconId}/widgets`, {
         label: {

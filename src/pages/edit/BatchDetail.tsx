@@ -25,7 +25,6 @@ import {
 } from "@material-ui/core";
 import DragHandleIcon from "@material-ui/icons/DragHandle";
 import AddIcon from "@material-ui/icons/Add";
-import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -34,6 +33,8 @@ import Axios from "axios";
 import ErrorScene from "../../components/ErrorScene";
 import ConnectingScene from "../../components/ConnectingScene";
 import SuccessScene from "../../components/SuccessScene";
+
+import { API_BASE_URL } from "../../utils/vars";
 
 type BatchWidget = {
   id: number;
@@ -107,9 +108,7 @@ const SortableItem = SortableElement(
     >("connecting");
 
     const sendRemoveBatchApi = () => {
-      Axios.delete(
-        `http://192.168.3.200:3000/api/v1/batches/widgets/${item.batchesWidgetsId}`
-      )
+      Axios.delete(`${API_BASE_URL}/batches/widgets/${item.batchesWidgetsId}`)
         .then(response => {
           setTimeout(() => {
             setIsDialogCon("success");
@@ -211,7 +210,7 @@ const SortableItem = SortableElement(
                 >
                   <SuccessScene
                     text="操作削除が完了しました"
-                    path={`/edit/batches`}
+                    path={`/edit/batches/`}
                     btnText="一括操作一覧へ"
                   />
                 </Box>
@@ -258,7 +257,7 @@ const Component: React.FC<EditProps> = props => {
 
   React.useEffect(() => {
     props.changePage(22002);
-    Axios.get(`http://192.168.3.200:3000/api/v1/batches/${batchId}`, {
+    Axios.get(`${API_BASE_URL}/batches/${batchId}`, {
       timeout: 5000
     })
       .then(response => {
@@ -307,7 +306,7 @@ const Component: React.FC<EditProps> = props => {
                   color="primary"
                   size="large"
                   to={{
-                    pathname: `/edit`,
+                    pathname: `/edit/batches/${batchId}/update/input`,
                     state: {}
                   }}
                   component={Link}

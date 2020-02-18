@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { API_BASE_URL } from "../utils/vars";
 
 // type ConnectionState = "loading" | "success" | "error";
 // type Content = {
@@ -53,12 +54,12 @@ import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 // }
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
-type ConnectionStatus = "wait" |"loading" | "success" | "error";
+type ConnectionStatus = "wait" | "loading" | "success" | "error";
 type Response = any;
 type UseApi = {
   timeoutLimitMs: number;
   offsetTimeMs: number;
-}
+};
 
 function useApi({ timeoutLimitMs, offsetTimeMs }: UseApi) {
   const [response, setResponse] = useState<Response>(null);
@@ -68,21 +69,23 @@ function useApi({ timeoutLimitMs, offsetTimeMs }: UseApi) {
     const axiosConfig = {
       method: method,
       url: url,
-      baseURL: "http://192.168.3.200:3000",
+      baseURL: API_BASE_URL,
       data: data,
       timeout: timeoutLimitMs
     };
     setConnectionStatus("loading");
-    Axios(axiosConfig).then(response => {
-      setTimeout(() => {
-        setResponse(response);
-        setConnectionStatus("success");
-      }, offsetTimeMs)
-    }).catch(error => {
-      setResponse(null);
-      setConnectionStatus("error");
-    });
-  }
+    Axios(axiosConfig)
+      .then(response => {
+        setTimeout(() => {
+          setResponse(response);
+          setConnectionStatus("success");
+        }, offsetTimeMs);
+      })
+      .catch(error => {
+        setResponse(null);
+        setConnectionStatus("error");
+      });
+  };
 
   return { response, status, getApi };
 }

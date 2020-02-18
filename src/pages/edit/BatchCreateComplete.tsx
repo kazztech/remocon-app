@@ -14,6 +14,8 @@ import ConnectingScene from "../../components/ConnectingScene";
 import ErrorScene from "../../components/ErrorScene";
 import SuccessScene from "../../components/SuccessScene";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -49,7 +51,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
   React.useEffect(() => {
     props.changePage(21103);
     if (!isDirectAccess) {
-      Axios.post(`http://192.168.3.200:3000/api/v1/batches`, {
+      Axios.post(`${API_BASE_URL}/batches`, {
         name: inputRemoconName,
         priority: inputRemoconPriority
       })
@@ -92,7 +94,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
         {scene === "success" && (
           <SuccessScene
             text="リモコン更新が完了しました"
-            path={`/edit/remocons/${remoconId}`}
+            path={`/edit/batches`}
             btnText="リモコンへ"
             {...props}
           />

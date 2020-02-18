@@ -16,6 +16,8 @@ import ErrorScene from "../../components/ErrorScene";
 import ConnectingScene from "../../components/ConnectingScene";
 import buttonColor from "../../utils/functions/buttonColor";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles((theme: Theme) => ({
   container: {
     padding: theme.spacing(1)
@@ -87,10 +89,7 @@ const Controller: React.FC<ControllerProps> = (props: ControllerProps) => {
   });
 
   const sendIrApi = (widgetId: number) => {
-    getSendIrApi(
-      `http://192.168.3.200:3000/api/v1/widgets/${widgetId}/ir-send`,
-      "GET"
-    );
+    getSendIrApi(`${API_BASE_URL}/widgets/${widgetId}/ir-send`, "GET");
   };
 
   const sortedWidgets = useMemo(() => {
@@ -117,7 +116,7 @@ const Controller: React.FC<ControllerProps> = (props: ControllerProps) => {
 
   useEffect(() => {
     props.changePage(10001);
-    getRemoconApi(`http://192.168.3.200:3000/api/v1/remocons`, "GET");
+    getRemoconApi(`${API_BASE_URL}/remocons`, "GET");
   }, []);
 
   useEffect(() => {

@@ -14,6 +14,8 @@ import ConnectingScene from "../../components/ConnectingScene";
 import ErrorScene from "../../components/ErrorScene";
 import SuccessScene from "../../components/SuccessScene";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -37,7 +39,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
 
   React.useEffect(() => {
     props.changePage(22302);
-    Axios.delete(`http://192.168.3.200:3000/api/v1/batches/${batchId}`)
+    Axios.delete(`${API_BASE_URL}/batches/${batchId}`)
       .then(res => {
         setTimeout(() => {
           setScene("success");

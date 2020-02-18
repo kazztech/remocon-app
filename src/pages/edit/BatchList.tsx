@@ -14,6 +14,8 @@ import Axios from "axios";
 import ErrorScene from "../../components/ErrorScene";
 import ConnectingScene from "../../components/ConnectingScene";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -57,7 +59,7 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
   React.useEffect(() => {
     props.changePage(22001);
 
-    Axios.get("http://192.168.3.200:3000/api/v1/batches", { timeout: 5000 })
+    Axios.get(`${API_BASE_URL}/batches`, { timeout: 5000 })
       .then(response => {
         setTimeout(() => {
           setBatches(response.data.content.batches);

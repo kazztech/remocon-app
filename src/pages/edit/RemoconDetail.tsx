@@ -18,6 +18,8 @@ import ConnectingScene from "../../components/ConnectingScene";
 import WidgetButton from "../../components/WidgetButton";
 import buttonColor from "../../utils/functions/buttonColor";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -83,7 +85,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (
   React.useEffect(() => {
     props.changePage(21002);
 
-    Axios.get(`http://192.168.3.200:3000/api/v1/remocons/${remoconId}`, {
+    Axios.get(`${API_BASE_URL}/remocons/${remoconId}`, {
       timeout: 5000
     })
       .then(response => {

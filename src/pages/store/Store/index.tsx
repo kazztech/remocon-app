@@ -1,75 +1,155 @@
-import React, { useState, Fragment } from 'react';
-import { makeStyles, Container, List, Divider, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
-
+import React, { useState, Fragment, useEffect } from "react";
+import {
+  makeStyles,
+  Container,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  TextField,
+  Typography,
+  Fab,
+  Box
+} from "@material-ui/core";
+import PublishIcon from "@material-ui/icons/Publish";
 import db from "../../../firebase";
-import { Link } from 'react-router-dom';
-import ConnectingScene from '../../../components/ConnectingScene';
-import ErrorScene from '../../../components/ErrorScene';
-
+import { Link } from "react-router-dom";
+import ConnectingScene from "../../../components/ConnectingScene";
+import ErrorScene from "../../../components/ErrorScene";
 
 const styles = makeStyles(theme => ({
-    container: {
-        padding: theme.spacing(1)
-    }
+  container: {
+    padding: theme.spacing(1),
+    paddingTop: theme.spacing(2)
+  }
 }));
 
 interface StoreProps {
-    changePage(id: number): void;
+  changePage(id: number): void;
 }
 const Store: React.FC<StoreProps> = (props: StoreProps) => {
-    const classes = styles();
-    const [storeConState, setStoreConState] = React.useState<"connecting" | "error" | "success">("connecting");
-    const [remocons, setRemocons] = useState([]);
+  const classes = styles();
+  const [storeConState, setStoreConState] = React.useState<
+    "connecting" | "error" | "success"
+  >("connecting");
+  const [remocons, setRemocons] = useState([]);
 
-    React.useEffect(() => {
-        props.changePage(30001);
-        db.get().then(s => {
+  const [searchText, setSearchText] = useState("");
+  const [isSearchBusy, setIsSearchBusy] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<any>(0);
+
+  React.useEffect(() => {
+    props.changePage(30001);
+  }, []);
+
+  useEffect(() => {
+    if (isSearchBusy) {
+      clearTimeout(timeoutId);
+    }
+    setIsSearchBusy(true);
+    setTimeoutId(
+      setTimeout(() => {
+        setStoreConState("connecting");
+        db.orderBy("productId")
+          .startAt(searchText)
+          .endAt(`${searchText}\uf8ff`)
+          .limit(20)
+          .get()
+          .then(s => {
             setTimeout(() => {
-                let newRemocons: any = [];
-                s.forEach(d => {
-                    newRemocons.push({ id: d.id, ...d.data() });
-                })
-                setRemocons(newRemocons);
-                setStoreConState("success");
-            }, 500);
-        }).catch(error => {
+              let newRemocons: any = [];
+              s.forEach(d => {
+                newRemocons.push({ id: d.id, ...d.data() });
+              });
+              setRemocons(newRemocons);
+              setIsSearchBusy(false);
+              setStoreConState("success");
+            }, 1000);
+          })
+          .catch(error => {
             setStoreConState("error");
-        });
-    }, []);
-
-    return (
-        <>
-            <Container className={classes.container}>
-                {storeConState === "connecting" && (
-                    <ConnectingScene text={""} {...props} />
-                )}
-                {storeConState === "error" && (
-                    <ErrorScene
-                        text="通信に失敗しました"
-                        path={`/edit`}
-                        btnText="設定画面へ"
-                        {...props}
-                    />
-                )}
-                {storeConState === "success" && (
-                <List>
-                    <Divider />
-                    {remocons.map((remocon: any, index: any) => (
-                        <React.Fragment key={index} >
-                            <ListItem alignItems="flex-start" button component={Link} to={"/store/" + remocon.id}>
-                                <ListItemText
-                                    primary={remocon.name}
-                                    secondary={remocon.description}
-                                />
-                            </ListItem>
-                            <Divider />
-                        </React.Fragment>
-                    ))}
-                </List>
-                )}
-            </Container>
-        </>
+          });
+      }, 500)
     );
-}
+  }, [searchText]);
+
+  return (
+    <>
+      <Container className={classes.container}>
+        {storeConState === "connecting" && (
+          <ConnectingScene text={""} {...props} />
+        )}
+        {storeConState === "error" && (
+          <ErrorScene
+            text="通信に失敗しました"
+            path={`/edit`}
+            btnText="設定画面へ"
+            {...props}
+          />
+        )}
+        {storeConState !== "error" && (
+          <>
+            <TextField
+              label="型番やキーワード"
+              variant="outlined"
+              value={searchText}
+              onChange={e => {
+                setSearchText(e.target.value);
+              }}
+              fullWidth
+            />
+            <Fab
+              variant="extended"
+              color="primary"
+              component={Link}
+              to={`/store/upload/select`}
+              style={{
+                width: "calc(100% - 20px)",
+                position: "fixed",
+                bottom: 72,
+                left: "50%",
+                transform: "translateX(-50%)"
+              }}
+            >
+              <PublishIcon /> アップロード
+            </Fab>
+          </>
+        )}
+        {storeConState === "success" && (
+          <>
+            <List style={{ marginBottom: 64 }}>
+              <Divider />
+              {remocons.map((remocon: any, index: any) => (
+                <React.Fragment key={index}>
+                  <ListItem
+                    alignItems="flex-start"
+                    button
+                    component={Link}
+                    to={"/store/" + remocon.id}
+                  >
+                    <ListItemText
+                      primary={remocon.productId}
+                      secondary={remocon.description}
+                    />
+                  </ListItem>
+                  <Divider />
+                </React.Fragment>
+              ))}
+              {remocons.length === 0 && (
+                <Typography
+                  variant="body2"
+                  style={{ textAlign: "center", marginTop: 24 }}
+                >
+                  一致するリモコンが見つかりませんでした
+                </Typography>
+              )}
+            </List>
+          </>
+        )}
+      </Container>
+    </>
+  );
+};
 
 export default Store;

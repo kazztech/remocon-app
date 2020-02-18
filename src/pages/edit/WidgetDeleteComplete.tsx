@@ -14,6 +14,8 @@ import ConnectingScene from "../../components/ConnectingScene";
 import ErrorScene from "../../components/ErrorScene";
 import SuccessScene from "../../components/SuccessScene";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -59,9 +61,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
     props.changePage(21602);
     console.log(irPattern);
     if (!isDirectAccess) {
-      Axios.delete(
-        `http://192.168.3.200:3000/api/v1/remocons/${remoconId}/widgets/${widgetId}`
-      )
+      Axios.delete(`${API_BASE_URL}/remocons/${remoconId}/widgets/${widgetId}`)
         .then(res => {
           setTimeout(() => {
             setScene("success");

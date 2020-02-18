@@ -28,6 +28,8 @@ import ConnectingScene from "../../components/ConnectingScene";
 import ErrorScene from "../../components/ErrorScene";
 import SuccessScene from "../../components/SuccessScene";
 
+import { API_BASE_URL } from "../../utils/vars";
+
 const styles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(1)
@@ -116,7 +118,7 @@ const IrReadDialog = (props: {
   const irReadApiSending = () => {
     setIsReading(true);
     setScene("connecting");
-    Axios.get("http://192.168.3.200:3000/api/v1/ir-read", { timeout: 10000 })
+    Axios.get(`${API_BASE_URL}/ir-read`, { timeout: 10000 })
       .then(response => {
         setTimeout(() => {
           setIrPattern(response.data.content.irPattern);
