@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useMemo } from "react";
 import {
   makeStyles,
   Container,
@@ -140,7 +140,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (
       });
   }, []);
 
-  const sortedWidgets = (() => {
+  const sortedWidgets = useMemo(() => {
     if (remocon === null) return [];
     const maxLength = 64;
     const result = [];
@@ -155,7 +155,7 @@ const RemoconDetail: React.FC<RemoconDetailProps> = (
       }
     }
     return result;
-  })();
+  }, [remocon]);
 
   return (
     <>

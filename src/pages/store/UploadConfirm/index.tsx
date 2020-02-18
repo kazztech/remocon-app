@@ -36,6 +36,7 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (
   props: RemoconCreateInputProps
 ) => {
   const classes = styles();
+  const remoconId = props.match.params.remoconId;
 
   const remoconName = props.location.state.remoconName;
 
@@ -50,20 +51,17 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (
   };
 
   // 入力値.製品番号
-  const [inputProductId, setInputProductId] = useState<string>(
-    getPropState<string>(props.location.state, "inputProductId", "")
+  const inputProductId = getPropState<string>(
+    props.location.state,
+    "inputProductId",
+    ""
   );
-  const handleInputProductId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputProductId(e.target.value);
-  };
-
   // 入力値.リモコン説明
-  const [inputDiscription, setInputDiscription] = useState<string>(
-    getPropState<string>(props.location.state, "inputProductId", "")
+  const inputDiscription = getPropState<string>(
+    props.location.state,
+    "inputDiscription",
+    ""
   );
-  const handleInputDiscription = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputDiscription(e.target.value);
-  };
 
   React.useEffect(() => {
     props.changePage(31003);
@@ -93,8 +91,8 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (
             className={/*classes.prevBtn*/ ""}
             component={Link}
             to={{
-              pathname: `/edit/remocons/create/input`,
-              state: { remoconName, inputDiscription, handleInputDiscription }
+              pathname: `/store/upload/${remoconId}/input`,
+              state: { remoconName, inputDiscription, inputProductId }
             }}
           >
             戻る
@@ -102,8 +100,8 @@ const RemoconCreateInput: React.FC<RemoconCreateInputProps> = (
           <Button
             component={Link}
             to={{
-              pathname: `/edit/remocons/create/complete`,
-              state: { remoconName, inputDiscription, handleInputDiscription }
+              pathname: `/store/upload/${remoconId}/complete`,
+              state: { remoconName, inputDiscription, inputProductId }
             }}
             color="primary"
             variant="contained"

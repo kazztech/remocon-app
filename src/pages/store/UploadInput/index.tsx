@@ -115,7 +115,7 @@ const RemoconList: React.FC<RemoconListProps> = (props: RemoconListProps) => {
               component={Link}
               to={{
                 pathname: `/store/upload/${remoconId}/confirm`,
-                state: { remoconName, inputDiscription, handleInputDiscription }
+                state: { remoconName, inputDiscription, inputProductId }
               }}
               color="primary"
               variant="contained"

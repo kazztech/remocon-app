@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import { makeStyles, Container, CircularProgress, IconButton, Snackbar } from '@material-ui/core';
 // import CloseIcon from "@material-ui/icons/Close"
 
@@ -15,13 +15,13 @@ import React from 'react';
 // };
 // const ConnectingScene: React.FC<ConnectingSceneProps> = (props: ConnectingSceneProps) => {
 //     const classes = styles();
-    
+
 //     const SnackBarState = {
 //         show: false,
 //         text: "",
 //         timeout: 3000
 //     };
-    
+
 //     const SnackBarContext = React.createContext(SnackBarState);
 
 //     return (

@@ -10,6 +10,7 @@ import {
 import { Link, RouteComponentProps } from "react-router-dom";
 import Axios from "axios";
 
+import db from "../../../firebase";
 import ConnectingScene from "../../../components/ConnectingScene";
 import ErrorScene from "../../../components/ErrorScene";
 import SuccessScene from "../../../components/SuccessScene";
@@ -31,70 +32,60 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
   props: RemoconCreateConpleteProps
 ) => {
   const classes = styles();
+  const remoconId = props.match.params.remoconId;
+
   const [scene, setScene] = useState<"connecting" | "error" | "success">(
     "connecting"
   );
 
-  const remoconId = props.match.params.remoconId;
+  const getPropState = <T extends unknown>(
+    propsState: any | undefined,
+    property: string,
+    defaultValue: T
+  ): T => {
+    if (typeof propsState === "undefined") return defaultValue;
+    if (typeof propsState[property] === "undefined") return defaultValue;
+    return propsState[property];
+  };
 
-  let inputWidgetLabelText = "";
-  let inputWidgetIconColor = "";
-  let inputWidgetIconStyle = "";
-  let selectPositionX: number | null = null;
-  let selectPositionY: number | null = null;
-  let irPattern: number[] | null = null;
-  let isDirectAccess = false;
-  if (typeof props.location.state !== "undefined") {
-    const propsState = props.location.state;
-    inputWidgetLabelText = propsState.inputWidgetLabelText;
-    inputWidgetIconColor = propsState.inputWidgetIconColor;
-    inputWidgetIconStyle = propsState.inputWidgetIconStyle;
-    selectPositionX = propsState.selectPosition % 4;
-    selectPositionY = Math.floor(propsState.selectPosition / 4);
-    irPattern = propsState.irPattern;
-  } else {
-    isDirectAccess = true;
-  }
+  // 入力値.製品番号
+  const inputProductId = getPropState<string>(
+    props.location.state,
+    "inputProductId",
+    ""
+  );
+  // 入力値.リモコン説明
+  const inputDiscription = getPropState<string>(
+    props.location.state,
+    "inputDiscription",
+    ""
+  );
 
   React.useEffect(() => {
     props.changePage(31004);
-    if (!isDirectAccess) {
-      Axios.post(`${API_BASE_URL}/remocons/${remoconId}/widgets`, {
-        label: {
-          text: inputWidgetLabelText,
-          color: "white"
-        },
-        icon: {
-          style: inputWidgetIconStyle,
-          color: inputWidgetIconColor
-        },
-        position: {
-          x: selectPositionX,
-          y: selectPositionY
-        },
-        irPattern: irPattern
-      })
-        .then(res => {
-          setTimeout(() => {
-            setScene("success");
-          }, 2000);
+    setScene("connecting");
+    Axios.get(`${API_BASE_URL}/remocons/${remoconId}`)
+      .then(response => {
+        db.add({
+          productId: inputProductId,
+          description: inputDiscription,
+          widgets: response.data.content.widgets
         })
-        .catch(error => {
-          console.log(error);
-          setScene("error");
-        });
-    }
+          .then(() => {
+            setTimeout(() => {
+              setScene("success");
+            }, 500);
+          })
+          .catch(() => {
+            setScene("error");
+          });
+      })
+      .catch(error => {
+        console.log(error);
+        setScene("error");
+      });
   }, []);
 
-  if (isDirectAccess)
-    return (
-      <ErrorScene
-        text="アクセス方法が不正です"
-        path={`/edit/remocons`}
-        btnText="リモコン一覧へ"
-        {...props}
-      />
-    );
   return (
     <>
       <Container className={classes.container}>
@@ -112,7 +103,7 @@ const RemoconCreateConplete: React.FC<RemoconCreateConpleteProps> = (
         {scene === "success" && (
           <SuccessScene
             text="ウィジェット追加が完了しました"
-            path={`/edit/remocons/${remoconId}`}
+            path={`/edit/remocons`}
             btnText="リモコンへ"
             {...props}
           />
