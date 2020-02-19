@@ -16,3 +16,5 @@
      - redux の場合は saga 導入
 2. テストコード
    - jest
+3. doc 作成
+4. OSS 化
