@@ -26,6 +26,7 @@ const styles = makeStyles(theme => ({
     paddingTop: theme.spacing(2)
   },
   inputArea: {
+    maxWidth: theme.breakpoints.values.sm,
     width: "calc(100% - 20px)",
     position: "fixed",
     top: 72,
@@ -35,8 +36,18 @@ const styles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default
   },
   resultContainer: {
+    maxWidth: theme.breakpoints.values.sm,
     marginTop: 62,
     marginBottom: 64
+  },
+  downloadButton: {
+    maxWidth: theme.breakpoints.values.sm,
+    width: "calc(100% - 20px)",
+    position: "fixed",
+    bottom: 72,
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 10000
   }
 }));
 
@@ -116,18 +127,11 @@ const Store: React.FC<StoreProps> = (props: StoreProps) => {
               fullWidth
             />
             <Fab
+              className={classes.downloadButton}
               variant="extended"
               color="primary"
               component={Link}
               to={`/store/upload/select`}
-              style={{
-                width: "calc(100% - 20px)",
-                position: "fixed",
-                bottom: 72,
-                left: "50%",
-                transform: "translateX(-50%)",
-                zIndex: 10000
-              }}
             >
               <PublishIcon /> アップロード
             </Fab>

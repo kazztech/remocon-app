@@ -1,3 +1,18 @@
 # remocon-app
 
-まだまだ途中
+## API
+
+[https://github.com/kazztech/remocon-api](https://github.com/kazztech/remocon-api)
+
+## 今後
+
+1. 全体リファクタリング
+   - 状態管理の見直し
+     - redux or context hooks
+   - カスタム Hooks で処理の共通化
+   - 型の有効活用
+     - 型宣言の共通化、別ファイル化
+   - 非同期通信の管理
+     - redux の場合は saga 導入
+2. テストコード
+   - jest

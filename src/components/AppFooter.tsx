@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   makeStyles,
   Box,
@@ -38,7 +38,7 @@ const AppFooter: React.FC<AppFooterProps> = (props: AppFooterProps) => {
     props.currentPageId
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const rootPageId = getRootPageById(props.currentPageId);
     setCurrentPageId(rootPageId);
   });
