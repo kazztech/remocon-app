@@ -1,8 +1,18 @@
 # remocon-app
 
-## API
+## API Repository
 
-[https://github.com/kazztech/remocon-api](https://github.com/kazztech/remocon-api)
+https://github.com/kazztech/remocon-api
+
+## Doc
+
+### 構成
+
+https://drive.google.com/file/d/1sjYKWqKJRJGPbpeE1U271uKUpQ4lbI4J/view
+
+### Demo
+
+https://www.youtube.com/watch?v=mBWabLToe5k
 
 ## 今後
 
