@@ -27,6 +27,7 @@ https://www.youtube.com/watch?v=mBWabLToe5k
 2. テストコード
    - jest
 3. Dockerイメージ化
+   - ラズパイの負荷にもよる
 4. doc 作成
 
 ## 配布
