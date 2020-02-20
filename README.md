@@ -18,7 +18,6 @@
    - jest
 3. Dockerイメージ化
 4. doc 作成
-5. OSS 化
 
 ## 配布
 
