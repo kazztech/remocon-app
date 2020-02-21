@@ -1,5 +1,7 @@
 # remocon-app
 
+
+
 ## API Repository
 
 https://github.com/kazztech/remocon-api
@@ -15,6 +17,10 @@ https://www.youtube.com/watch?v=mBWabLToe5k
 - デモ動画で紹介していない機能
    - リモコンストア機能
       - ユーザーがリモコンをアップロード/ダウンロードできる機能。リモコンを登録する前にリモコンストアで型番などを検索し、ヒットしたらそのままダウンロードして利用可能。もしなければ、自分でリモコンを作成し、それをアップロードすると他のユーザーが今後ダウンロードできるようになる。
+      
+## デバイスの画像
+
+https://drive.google.com/file/d/118Z4_eudS2LpqLq6pOOb8YjYKrHX4rKZ/view
 
 ## 今後
 
